@@ -71,7 +71,7 @@
 # === Copyright
 
 class rt (
-  $database_host      = 'localhost'
+  $database_host      = 'localhost',
   $database_password  = undef,
   $database_port      = 5234,
   $database_type      = 'pgsql'
