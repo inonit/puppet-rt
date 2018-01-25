@@ -2,7 +2,7 @@
 # Stolen from https://github.com/deadpoint/puppet-rt/blob/master/manifests/queue.pp
 define rt::queue (
     $ensure             = present,
-    $description        = "${name queue}",
+    $description        = "${name} queue",
     $reply_email        = "${name}@${rt::email_domain}",
     $comment_email      = "${name}-comment@${rt::email_domain}",
     $url                = $rt::rt_server
