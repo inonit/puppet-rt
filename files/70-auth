@@ -1,0 +1,43 @@
+Set($ExternalAuthPriority,['AWS_LDAP']);
+Set($ExternalInfoPriority,['AWS_LDAP']);
+
+# People who send email should be given an "email-user" 
+Set( $AutoCreateNonExternalUsers = 1);
+
+# Users in LDAP are privileged.
+Set( $UserAutocreateDefaultsOnLogin, { Privileged => 1 } );
+
+
+Set($ExternalSettings, {
+  'AWS_LDAP'        	  =>  {
+    'type'          	  => 'ldap',
+    'server'        	  => 'ldaps://puppet.inonit.no:636',
+    'base'          	  => 'dc=aws,dc=inonit,dc=no',
+    'filter'        	  => '(objectClass=shadowAccount)',
+    'd_filter'      	  => '(userAccountControl:1.2.840.113556.1.4.803:=2)',
+    'group'         	  => 'cn=rt-users,ou=Group,dc=aws,dc=inonit,dc=no',
+    'group_attr'    	  => 'memberUid',
+    'group_attr_value'  => 'uid',
+    'net_ldap_args' 	  => [
+      version	    	    => 3,
+      client_cert   	  => "/etc/x509/certs/star_inonit_no.pem",
+      client_key    	  => "/etc/x509/keys/star_inonit_no.key",
+    ],
+
+    'tls'           	  =>  {
+      verify        	  => "require",
+      capath        	  => "/etc/ssl/certs/ca-certificates.crt",
+    },
+
+    'attr_match_list' 	=> [ 'Name', 'EmailAddress',],
+
+    'attr_map' 		      => {
+      'Name' 		        => 'uid',
+      'EmailAddress' 	  => 'mail',
+      'RealName' 	      => 'cn',
+      'Gecos' 		      => 'cn',
+      'WorkPhone' 	    => 'telephoneNumber',
+      'MobilePhone' 	  => 'mobile',
+    },
+  },
+} );

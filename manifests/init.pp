@@ -1,41 +1,75 @@
 # == Class: rt
 #
-# Full description of class rt here.
-#
-# === Parameters
-#
-# Document parameters here.
-#
-# [*sample_parameter*]
-#   Explanation of what this parameter affects and what it defaults to.
-#   e.g. "Specify one or more upstream ntp servers as an array."
+# Class basically configure database connection. The rest is
+# configured manually with Debian packages.
 #
 # === Variables
 #
 # Here you should define a list of variables that this module would require.
 #
-# [*sample_variable*]
-#   Explanation of how this variable affects the funtion of this class and if
-#   it has a default. e.g. "The parameter enc_ntp_servers must be set by the
-#   External Node Classifier as a comma separated list of hostnames." (Note,
-#   global variables should be avoided in favor of class parameters as
-#   of Puppet 2.6.)
+# [*database_type*]
+#   Specify type of database:
+#     - mysql
+#     - pgsql
+#     - sqlite3
 #
-# === Examples
+#   Default: pgsql
 #
-#  class { 'rt':
-#    servers => [ 'pool.ntp.org', 'ntp.local.company.com' ],
-#  }
+#
+# [*database_host*]
+#     database host to connect to
+#
+#
+# [*database_port*]
+#     port on database_host to connect to
+#
+#   Default: 5234
+#
+#
+# [*database_user*]
+#     username for conneting to database
+#
+#   default: rt4
+#
+#
+# [*database_password*]
+#   secret password to use for db connetion
+#   remember to use eyaml for encryption of secret
 #
 # === Authors
 #
-# Author Name <author@domain.com>
+# Lars Bahner <lars.bahner@gmail.com>
 #
 # === Copyright
 #
-# Copyright 2017 Your name here, unless otherwise noted.
-#
-class rt {
+# Copyright © 2017 Inonit AS
 
+class rt (
 
+  $database_type      = $rt::params::database_type
+  $database_host      = $rt::params::database_host
+  $database_port      = $rt::params::database_port
+  $database_user      = $rt::params::database_user
+  $database_password  = $rt::params::database_password
+
+) inherits rt::params {
+
+  File {
+    notify => Exec['update-siteconfig'],
+    owner   => 'root',
+    mode    => '0640'
+  }
+
+  file {
+    '/etc/request-tracker4/RT_SiteConfig.d/51-dbconfig-common':
+      ensure  => file,
+      content => template('dbconfig-common'),
+      group   => 'www-data',
+      ;
+  }
+
+  exec {
+    'update-siteconfig':
+      command => '/usr/sbin/update-rt-siteconfig-4';
+  }
 }
