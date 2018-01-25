@@ -45,7 +45,7 @@
 # [*database_port*]
 #     port on database_host to connect to
 #
-#   Default: 5234
+#   Default: 5432
 #
 #
 # [*database_user*]
@@ -73,7 +73,7 @@
 class rt (
   $database_host      = 'localhost',
   $database_password  = undef,
-  $database_port      = 5234,
+  $database_port      = 5432,
   $database_type      = 'pgsql',
   $database_user      = 'rt4',
   $rt_passwd,
