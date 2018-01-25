@@ -7,6 +7,28 @@
 #
 # Here you should define a list of variables that this module would require.
 #
+# [*rt_server*]
+#   URL for the actual server. This is used to build URLs
+#     You should probably have this SSL'ed, as
+#     https://rt.example.com
+#
+#     May also be set as environment variable RTSERVER  
+#
+#   Default: http://localhost/rt
+#
+# [*rt_user*]
+#   User to use for login for rt-client to log into
+#   via web ( so REMOTE_USER)
+#
+#     May also be set as environment variable RTUSER
+#
+#   Default: root
+#
+# [*rt_passwd*]
+#     Password to use for web login for
+#
+#     May also be set as environment variable RTPASSWD
+#
 # [*database_type*]
 #   Specify type of database:
 #     - mysql
@@ -36,6 +58,12 @@
 #   secret password to use for db connetion
 #   remember to use eyaml for encryption of secret
 #
+# [*email_domain*]
+#   Fuzzy var. Probably hostname, probably email domain
+#   Used to generate email domains, when not declared
+#
+#   Default: localhost
+#
 # === Authors
 #
 # Lars Bahner <lars.bahner@gmail.com>
@@ -51,6 +79,10 @@ class rt (
   $database_port      = $rt::params::database_port
   $database_user      = $rt::params::database_user
   $database_password  = $rt::params::database_password
+  $rt_server          = $rt::params::rt_server
+  $rt_user            = $rt::params::rt_user
+  $rt_passwd          = $rt::params::rt_passwd
+  $email_domain         = $rt::params::email_domain
 
 ) inherits rt::params {
 
@@ -61,9 +93,14 @@ class rt (
   }
 
   file {
+    '/etc/request-tracker4/rt.conf':
+      ensure  => file,
+      content => template('rt.conf.erb'),
+      group   => 'root',
+      ;
     '/etc/request-tracker4/RT_SiteConfig.d/51-dbconfig-common':
       ensure  => file,
-      content => template('dbconfig-common'),
+      content => template('dbconfig-common.erb'),
       group   => 'www-data',
       ;
   }
