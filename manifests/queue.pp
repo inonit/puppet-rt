@@ -12,8 +12,8 @@ define rt::queue (
         "${ensure} is not valid. Allowed values are 'present' only.")
 
     exec { "rt_queue_add_${name}":
-        command => "rt create -t queue set name=\"${name}\" description=\"${description}\" CorrespondAddress=\"${reply_email}\" CommentAddress=\"${comment_email}\"",
-        unless  => "rt show -t queue \"${name}\" | grep ^Name: > /dev/null"
+        command => "/usr/bin/rt create -t queue set name=\"${name}\" description=\"${description}\" CorrespondAddress=\"${reply_email}\" CommentAddress=\"${comment_email}\"",
+        unless  => "/usr/bin/rt show -t queue \"${name}\" | grep ^Name: > /dev/null"
     }
 
     mailalias {
