@@ -10,12 +10,16 @@ define rt::queue (
     $comment_email      = "${name}-comment@${email_domain}",
     ) {
 
+    # need for file requirements
+    include ::rt
+
     validate_re($ensure, '^present$',
         "${ensure} is not valid. Allowed values are 'present' only.")
 
     exec { "rt_queue_add_${name}":
         command => "/usr/bin/rt create -t queue set name=\"${name}\" description=\"${description}\" CorrespondAddress=\"${reply_email}\" CommentAddress=\"${comment_email}\"",
-        unless  => "/usr/bin/rt show -t queue \"${name}\" | grep ^Name: > /dev/null"
+        unless  => "/usr/bin/rt show -t queue \"${name}\" | grep ^Name: > /dev/null",
+        require => File['/etc/request-tracker4/rt.conf']
     }
 
     mailalias {

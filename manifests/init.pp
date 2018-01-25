@@ -69,24 +69,43 @@
 # Lars Bahner <lars.bahner@gmail.com>
 #
 # === Copyright
-#
-# Copyright © 2017 Inonit AS
 
-class rt {
+class rt (
+  $database_host,
+  $database_password,
+  $database_port,
+  $database_type,
+  $database_user,
+  $rt_passwd,
+  $rt_server,
+  $rt_user,
+  $queues,
+) {
 
-##  $database_host      = $rt::params::database_host,
-##  $database_password  = $rt::params::database_password,
-##  $database_port      = $rt::params::database_port,
-##  $database_type      = $rt::params::database_type,
-##  $database_user      = $rt::params::database_user,
-##  $email_domain       = $rt::params::email_domain,
-##  $rt_passwd          = $rt::params::rt_passwd,
-##  $rt_server          = $rt::params::rt_server,
-##  $rt_user            = $rt::params::rt_user,
+  File {
+    owner   => 'root',
+    mode    => '0640'
+  }
 
-  include rt::config
-  include rt::queues
+  file {
+    '/etc/request-tracker4/rt.conf':
+      ensure  => file,
+      content => template('rt/rt.conf.erb'),
+      group   => 'root',
+      notify => Exec['update-siteconfig'],
+      ;
+    '/etc/request-tracker4/RT_SiteConfig.d/51-dbconfig-common':
+      ensure  => file,
+      content => template('rt/dbconfig-common.erb'),
+      group   => 'www-data',
+      ;
+  }
 
-  Class['rt::config'] -> Class['rt::queues']
+  exec {
+    'update-siteconfig':
+      command => '/usr/sbin/update-rt-siteconfig-4';
+  }
+
+  create_resources('rt::queue', $queues)
 
 }
