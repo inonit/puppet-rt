@@ -72,41 +72,21 @@
 #
 # Copyright © 2017 Inonit AS
 
-class rt (
+class rt {
 
-  $database_host      = $rt::params::database_host,
-  $database_password  = $rt::params::database_password,
-  $database_port      = $rt::params::database_port,
-  $database_type      = $rt::params::database_type,
-  $database_user      = $rt::params::database_user,
-  $email_domain       = $rt::params::email_domain,
-  $rt_passwd          = $rt::params::rt_passwd,
-  $rt_server          = $rt::params::rt_server,
-  $rt_user            = $rt::params::rt_user,
+##  $database_host      = $rt::params::database_host,
+##  $database_password  = $rt::params::database_password,
+##  $database_port      = $rt::params::database_port,
+##  $database_type      = $rt::params::database_type,
+##  $database_user      = $rt::params::database_user,
+##  $email_domain       = $rt::params::email_domain,
+##  $rt_passwd          = $rt::params::rt_passwd,
+##  $rt_server          = $rt::params::rt_server,
+##  $rt_user            = $rt::params::rt_user,
 
-) inherits rt::params {
+  include rt::config
+  include rt::queues
 
-  File {
-    owner   => 'root',
-    mode    => '0640'
-  }
+  Class['rt::config'] -> Class['rt::queues']
 
-  file {
-    '/etc/request-tracker4/rt.conf':
-      ensure  => file,
-      content => template('rt/rt.conf.erb'),
-      group   => 'root',
-      notify => Exec['update-siteconfig'],
-      ;
-    '/etc/request-tracker4/RT_SiteConfig.d/51-dbconfig-common':
-      ensure  => file,
-      content => template('rt/dbconfig-common.erb'),
-      group   => 'www-data',
-      ;
-  }
-
-  exec {
-    'update-siteconfig':
-      command => '/usr/sbin/update-rt-siteconfig-4';
-  }
 }
