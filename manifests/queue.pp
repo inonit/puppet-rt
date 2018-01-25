@@ -3,7 +3,7 @@
 define rt::queue (
     # Some data defined in rt/data
     $ensure             = present,
-    $email_domain       = lookup('rt::email_domain', first)
+    $email_domain       = lookup('rt::email_domain', first),
     $url                = lookup('rt::rt_server', first),
     $description        = "${name} queue",
     $reply_email        = "${name}@${email_domain}",
