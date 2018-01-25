@@ -87,7 +87,6 @@ class rt (
 ) inherits rt::params {
 
   File {
-    notify => Exec['update-siteconfig'],
     owner   => 'root',
     mode    => '0640'
   }
@@ -97,6 +96,7 @@ class rt (
       ensure  => file,
       content => template('rt/rt.conf.erb'),
       group   => 'root',
+      notify => Exec['update-siteconfig'],
       ;
     '/etc/request-tracker4/RT_SiteConfig.d/51-dbconfig-common':
       ensure  => file,
