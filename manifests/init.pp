@@ -109,6 +109,6 @@ class rt (
       ;
   }
 
-  # create_resources('rt::queue', $queues)
+  create_resources('rt::queue', $queues)
 
 }
