@@ -74,8 +74,8 @@ class rt (
   $database_host      = 'localhost',
   $database_password  = undef,
   $database_port      = 5234,
-  $database_type      = 'pgsql'
-  $database_user      = 'rt4'
+  $database_type      = 'pgsql',
+  $database_user      = 'rt4',
   $rt_passwd,
   $rt_server,
   $rt_user            = 'root',
