@@ -2,9 +2,9 @@
 # Stolen from https://github.com/deadpoint/puppet-rt/blob/master/manifests/queue.pp
 define rt::queue (
     # Some data defined in rt/data
-    $ensure,
-    $email_domain,
-    $url,
+    $ensure             = present,
+    $email_domain       = lookup('rt::email_domain', first)
+    $url                = lookup('rt::rt_server', first),
     $description        = "${name} queue",
     $reply_email        = "${name}@${email_domain}",
     $comment_email      = "${name}-comment@${email_domain}",
