@@ -8,13 +8,13 @@ my %typemap = (
     sqlite3 => 'SQLite',
 );
     
-Set($DatabaseType, $typemap{<% @database_type %>} || "UNKNOWN");
+Set($DatabaseType, $typemap{<%= @database_type %>} || "UNKNOWN");
 
-Set($DatabaseHost, '<% @database_host %>');
-Set($DatabasePort, '<% @database_port %>');
+Set($DatabaseHost, '<%= @database_host %>');
+Set($DatabasePort, '<%= @database_port %>');
 
-Set($DatabaseUser , '<% @database_user %>');
-Set($DatabasePassword , '<% @database_password %>');
+Set($DatabaseUser , '<%= @database_user %>');
+Set($DatabasePassword , '<%= @database_password %>');
 
 # SQLite needs a special case, since $DatabaseName must be a full pathname
 my $dbc_dbname = 'rt4'; if ( "pgsql" eq "sqlite3" ) { Set ($DatabaseName, '' . '/' . $dbc_dbname); } else { Set ($DatabaseName, $dbc_dbname); }
