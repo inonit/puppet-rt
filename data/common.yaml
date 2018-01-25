@@ -8,3 +8,6 @@ rt::database_host: '127.0.0.1'
 rt::database_port: undef
 rt::database_user: 'rt4'
 rt::database_password: undef
+rt::queue::ensure: present
+rt::queue::url: "%{hiera('rt::rt_server')}"
+rt::queue::email_domain: "%{hiera('rt::email_domain')}"

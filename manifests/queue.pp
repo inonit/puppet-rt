@@ -1,11 +1,13 @@
 # rt::queue defined type.
 # Stolen from https://github.com/deadpoint/puppet-rt/blob/master/manifests/queue.pp
 define rt::queue (
-    $ensure             = present,
+    # Some data defined in rt/data
+    $ensure,
+    $email_domain,
+    $url,
     $description        = "${name} queue",
-    $reply_email        = "${name}@${rt::email_domain}",
-    $comment_email      = "${name}-comment@${rt::email_domain}",
-    $url                = $rt::rt_server
+    $reply_email        = "${name}@${email_domain}",
+    $comment_email      = "${name}-comment@${email_domain}",
     ) {
 
     validate_re($ensure, '^present$',
