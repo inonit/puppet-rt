@@ -71,15 +71,15 @@
 # === Copyright
 
 class rt (
-  $database_host      = lookup('rt::database_host'),
-  $database_password  = lookup('rt::database_password'),
-  $database_port      = lookup('rt::database_port'),
-  $database_type      = lookup('rt::database_type'),
-  $database_user      = lookup('rt::database_user'),
-  $rt_passwd          = lookup('rt::rt_passwd'),
-  $rt_server          = lookup('rt::rt_server'),
-  $rt_user            = lookup('rt::rt_user'),
-  $queues             = lookup('rt::queues'),
+  $database_host      = 'localhost'
+  $database_password  = undef,
+  $database_port      = 5234,
+  $database_type      = 'pgsql'
+  $database_user      = 'rt4'
+  $rt_passwd,
+  $rt_server,
+  $rt_user            = 'root',
+  $queues             = {},
 ) {
 
   File {
