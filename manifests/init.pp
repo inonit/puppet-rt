@@ -74,15 +74,15 @@
 
 class rt (
 
-  $database_type      = $rt::params::database_type
-  $database_host      = $rt::params::database_host
-  $database_port      = $rt::params::database_port
-  $database_user      = $rt::params::database_user
-  $database_password  = $rt::params::database_password
-  $rt_server          = $rt::params::rt_server
-  $rt_user            = $rt::params::rt_user
-  $rt_passwd          = $rt::params::rt_passwd
-  $email_domain         = $rt::params::email_domain
+  $database_host      = $rt::params::database_host,
+  $database_password  = $rt::params::database_password,
+  $database_port      = $rt::params::database_port,
+  $database_type      = $rt::params::database_type,
+  $database_user      = $rt::params::database_user,
+  $email_domain       = $rt::params::email_domain,
+  $rt_passwd          = $rt::params::rt_passwd,
+  $rt_server          = $rt::params::rt_server,
+  $rt_user            = $rt::params::rt_user,
 
 ) inherits rt::params {
 
