@@ -5,6 +5,6 @@ class rt::queues (
 
   include ::rt
 
-  create_resource('rt:queue', $queues)
+  create_resources('rt:queue', $queues)
 
 }
