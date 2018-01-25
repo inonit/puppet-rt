@@ -5,7 +5,7 @@ rt::rt_passwd: undef
 rt::email_domain: 'localhost'
 rt::database_type: 'pgsql'
 rt::database_host: '127.0.0.1'
-rt::database_port: undef
+rt::database_port: 5234
 rt::database_user: 'rt4'
 rt::database_password: undef
 rt::queues: {}
