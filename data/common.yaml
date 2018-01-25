@@ -8,5 +8,3 @@ rt::database_host: '127.0.0.1'
 rt::database_port: undef
 rt::database_user: 'rt4'
 rt::database_password: undef
-
-}
