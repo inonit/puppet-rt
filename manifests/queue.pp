@@ -5,9 +5,10 @@ define rt::queue (
     $ensure             = present,
     $email_domain       = lookup('rt::email_domain'),
     $url                = lookup('rt::rt_server'),
+    $alias              = "${name}",
     $description        = "${name} queue",
-    $reply_email        = "${name}@${email_domain}",
-    $comment_email      = "${name}-comment@${email_domain}",
+    $reply_email        = "${alias}@${email_domain}",
+    $comment_email      = "${alias}-comment@${email_domain}",
     ) {
 
     # need for file requirements
@@ -23,10 +24,10 @@ define rt::queue (
     }
 
     mailalias {
-      $name:
+      $alias:
         ensure    => $ensure,
         recipient => "|/usr/bin/rt-mailgate --queue ${name} --action correspond --url $url";
-      "${name}-comment":
+      "${alias}-comment":
         ensure    => $ensure,
         recipient => "|/usr/bin/rt-mailgate --queue ${name} --action comment --url $url";
     }
