@@ -18,7 +18,11 @@ define rt::queue (
         "${ensure} is not valid. Allowed values are 'present' only.")
 
     exec { "rt_queue_add_${name}":
-        command => "/usr/bin/rt create -t queue set name=\"${name}\" description=\"${description}\" CorrespondAddress=\"${reply_email}\" CommentAddress=\"${comment_email}\"",
+        command => "/usr/bin/rt create -t queue set \
+          name=\"${name}\"\
+          description=\"${description}\"\
+          CorrespondAddress=\"${reply_email}\"\
+          CommentAddress=\"${comment_email}\"",
         unless  => "/usr/bin/rt show -t queue \"${name}\" | grep ^Name: > /dev/null",
         require => File['/etc/request-tracker4/rt.conf']
     }
@@ -26,9 +30,9 @@ define rt::queue (
     mailalias {
       $alias:
         ensure    => $ensure,
-        recipient => "|/usr/bin/rt-mailgate --queue ${name} --action correspond --url $url";
+        recipient => "|/usr/bin/rt-mailgate --queue ${name} --action correspond --url ${url}";
       "${alias}-comment":
         ensure    => $ensure,
-        recipient => "|/usr/bin/rt-mailgate --queue ${name} --action comment --url $url";
+        recipient => "|/usr/bin/rt-mailgate --queue ${name} --action comment --url ${url}";
     }
 }

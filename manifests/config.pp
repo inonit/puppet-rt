@@ -13,7 +13,7 @@ class rt::config {
       ensure  => file,
       content => template('rt/rt.conf.erb'),
       group   => 'root',
-      notify => Exec['update-siteconfig'],
+      notify  => Exec['update-siteconfig'],
       ;
     '/etc/request-tracker4/RT_SiteConfig.d/51-dbconfig-common':
       ensure  => file,
